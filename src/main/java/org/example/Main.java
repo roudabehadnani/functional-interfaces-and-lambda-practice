@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 public class Main {
 
@@ -27,7 +26,7 @@ public class Main {
 
     static Conditional<Product> findLowerThan150UpperThan100 = p -> p.getPrice() >= 100 && p.getPrice() <= 150;
 
-    static Conditional<Product> findByStockLessThan10Above0 = p -> p.getStock() < 10 && p.getStock() > 0;
+    static Conditional<Product> findByStockLessThan10Above0 = p -> p.getStock() < 10 && p.getStock() > 0 ;
 
 
     public static void find(Collection<Product> source, Conditional<Product> conditional, Action<Product> action){
@@ -42,12 +41,23 @@ public class Main {
     public static void main(String[] args) {
 
         List<Product> afterFilter = new ArrayList<>();
+        List<Product> listAfterFilter = new ArrayList<>();
 
-        find(productList, findByStockZero, product -> System.out.println(product) );
-        find(productList, findByStartByB, product -> System.out.println(product.getProductName()));
-        find(productList, findLowerThan150UpperThan100, product -> afterFilter.add(product));
+        find(productList, findByStockZero, p -> System.out.println(p) );
+        find(productList, findByStartByB, p -> System.out.println(p.getProductName()));
+        find(productList, findLowerThan150UpperThan100, p -> afterFilter.add(p));
         System.out.println(afterFilter);
-        find(productList, findByStockLessThan10Above0, p -> System.out.println((p.getPrice() + 0.5 * p.getPrice())));
+//        find(productList, findByStockLessThan10Above0, p -> System.out.println((p.getPrice() + 0.5 * p.getPrice())));
+        find(productList, findByStockLessThan10Above0, p -> listAfterFilter.add(p));
+        listAfterFilter.forEach(product -> product.setPrice(product.getPrice() + 0.5 * product.getPrice()));
+        System.out.println(listAfterFilter);
+
+//        for (Product o: listAfterFilter) {
+//            double a = o.getPrice() + 0.5* o.getPrice();
+//            o.setPrice(a);
+//            System.out.println(o);
+//
+//        }
     }
 
 }
