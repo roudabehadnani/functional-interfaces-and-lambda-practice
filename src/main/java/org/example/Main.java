@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Main {
 
-
     static List<Product> productList = new ArrayList<>(
             Arrays.asList(
                     new Product("Painting book", 145, 20),
@@ -28,9 +27,18 @@ public class Main {
 
     static Conditional findByStockLessThan10Above0 = p -> p.getStock() < 10 && p.getStock() > 0 ;
 
+    static Action print = p -> System.out.println(p);
 
-    static  Action print = p -> System.out.println(p);
-    public static void find(Collection<Product> source, Conditional conditional, Action action){
+    static Action printName = p -> {
+        System.out.println(p.getProductName());
+    };
+
+    static Action increaseAndPrint = p -> {
+        p.setPrice(p.getPrice() * 1.5);
+        System.out.println(p);
+    };
+
+    public static void findAndDo(Collection<Product> source, Conditional conditional, Action action){
         for (Product p: source) {
             if (conditional.test(p)){
                 action.execute(p);
@@ -38,28 +46,11 @@ public class Main {
         }
     }
 
-
     public static void main(String[] args) {
 
-        List<Product> afterFilter = new ArrayList<>();
-        List<Product> listAfterFilter = new ArrayList<>();
-
-        find(productList, findByStockZero, print);
-        find(productList, findByStartByB, p -> System.out.println(p.getProductName()));
-        find(productList, findLowerThan150UpperThan100, p -> afterFilter.add(p));
-        System.out.println(afterFilter);
-//        find(productList, findByStockLessThan10Above0, p -> System.out.println((p.getPrice() + 0.5 * p.getPrice())));
-       //Increase the price of all Products that have a stock value of less than 10 AND above 0 by 50%
-        find(productList, findByStockLessThan10Above0, p -> listAfterFilter.add(p));
-
-        System.out.println(listAfterFilter);
-
-//        for (Product o: listAfterFilter) {
-//            double a = o.getPrice() + 0.5* o.getPrice();
-//            o.setPrice(a);
-//            System.out.println(o);
-//
-//        }
+        findAndDo(productList, findByStockZero, print);
+        findAndDo(productList, findByStartByB, printName);
+        findAndDo(productList, findLowerThan150UpperThan100, print);
+        findAndDo(productList, findByStockLessThan10Above0, increaseAndPrint);
     }
-
 }
