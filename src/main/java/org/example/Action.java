@@ -1,6 +1,6 @@
 package org.example;
 
-public interface Action<Product> {
+public interface Action {
 
     void execute(Product p);
 }

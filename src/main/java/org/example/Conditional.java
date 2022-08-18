@@ -1,6 +1,6 @@
 package org.example;
 
-public interface Conditional<Product> {
+public interface Conditional {
 
     boolean test(Product p);
 }

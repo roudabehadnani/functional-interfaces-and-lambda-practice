@@ -20,16 +20,17 @@ public class Main {
             )
     );
 
-    static Conditional<Product> findByStockZero = p -> p.getStock() == 0;
+    static Conditional findByStockZero = p -> p.getStock() == 0;
 
-    static Conditional<Product> findByStartByB = p -> p.getProductName().startsWith("B");
+    static Conditional findByStartByB = p -> p.getProductName().startsWith("B");
 
-    static Conditional<Product> findLowerThan150UpperThan100 = p -> p.getPrice() >= 100 && p.getPrice() <= 150;
+    static Conditional findLowerThan150UpperThan100 = p -> p.getPrice() >= 100 && p.getPrice() <= 150;
 
-    static Conditional<Product> findByStockLessThan10Above0 = p -> p.getStock() < 10 && p.getStock() > 0 ;
+    static Conditional findByStockLessThan10Above0 = p -> p.getStock() < 10 && p.getStock() > 0 ;
 
 
-    public static void find(Collection<Product> source, Conditional<Product> conditional, Action<Product> action){
+    static  Action print = p -> System.out.println(p);
+    public static void find(Collection<Product> source, Conditional conditional, Action action){
         for (Product p: source) {
             if (conditional.test(p)){
                 action.execute(p);
@@ -43,13 +44,14 @@ public class Main {
         List<Product> afterFilter = new ArrayList<>();
         List<Product> listAfterFilter = new ArrayList<>();
 
-        find(productList, findByStockZero, p -> System.out.println(p) );
+        find(productList, findByStockZero, print);
         find(productList, findByStartByB, p -> System.out.println(p.getProductName()));
         find(productList, findLowerThan150UpperThan100, p -> afterFilter.add(p));
         System.out.println(afterFilter);
 //        find(productList, findByStockLessThan10Above0, p -> System.out.println((p.getPrice() + 0.5 * p.getPrice())));
+       //Increase the price of all Products that have a stock value of less than 10 AND above 0 by 50%
         find(productList, findByStockLessThan10Above0, p -> listAfterFilter.add(p));
-        listAfterFilter.forEach(product -> product.setPrice(product.getPrice() + 0.5 * product.getPrice()));
+
         System.out.println(listAfterFilter);
 
 //        for (Product o: listAfterFilter) {
